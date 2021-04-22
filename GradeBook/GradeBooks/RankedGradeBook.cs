@@ -8,7 +8,7 @@ namespace GradeBook.GradeBooks
 {
     public class RankedGradeBook : BaseGradeBook
     {
-        public RankedGradeBook(string name) : base(name)
+        public RankedGradeBook(string name, bool isWeighted) : base(name,isWeighted)
         {
             this.Type = GradeBookType.Ranked;
         }
@@ -45,10 +45,27 @@ namespace GradeBook.GradeBooks
             {
                 return 'D';
             }
-            else
-            {
+            
                 return 'F';
+            
+        }
+
+        public override void CalculateStatistics()
+        {
+            if (this.Students.Count < 5)
+            {
+                throw new InvalidOperationException("Ranked-grading requires a minimum of 5 students with grades in oredr to rpoperly calculate A student's overall grade.");
             }
+            base.CalculateStatistics();
+        }
+
+        public override void CalculateStudentStatistics(string name)
+        {
+            if (this.Students.Count < 5)
+            {
+                throw new InvalidOperationException("Ranked-grading requires a minimum of 5 students with grades in oredr to rpoperly calculate A student's overall grade.");
+            }
+            base.CalculateStudentStatistics(name);
         }
     }
 }
