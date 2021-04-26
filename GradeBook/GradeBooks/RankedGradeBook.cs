@@ -28,25 +28,37 @@ namespace GradeBook.GradeBooks
                 Student_grades.Add(stud.AverageGrade);
             }
 
-            var top20 = Convert.ToInt32(Students.Count * 0.2);
-            if (Student_grades.IndexOf(averageGrade) > top20)
+            var topx = Convert.ToInt32(Students.Count * 0.2);
+            int CurrentGrade = 'A';
+
+            for (int iter = 1; topx*iter < Students.Count; iter++)
             {
-                return 'A';
+                if (topx * iter > Student_grades.IndexOf(averageGrade))
+                {
+                    return (char) CurrentGrade;
+                }
+                CurrentGrade = CurrentGrade + 1;
             }
-            if (Student_grades.IndexOf(averageGrade) > 2*top20)
-            {
-                return 'B';
-            }
-            if (Student_grades.IndexOf(averageGrade) > 3*top20)
-            {
-                return 'C';
-            }
-            if (Student_grades.IndexOf(averageGrade) > 4*top20)
-            {
-                return 'D';
-            }
+            return (char) CurrentGrade;
+
+            //if (Student_grades.IndexOf(averageGrade) > top20)
+            //{
+            //    return 'A';
+            //}
+            //else if (Student_grades.IndexOf(averageGrade) > 2*top20)
+            //{
+            //    return 'B';
+            //}
+            //else if (Student_grades.IndexOf(averageGrade) > 3*top20)
+            //{
+            //    return 'C';
+            //}
+            //else if (Student_grades.IndexOf(averageGrade) > 4*top20)
+            //{
+            //    return 'D';
+            //}
             
-                return 'F';
+              //  return 'F';
             
         }
 
@@ -54,7 +66,7 @@ namespace GradeBook.GradeBooks
         {
             if (this.Students.Count < 5)
             {
-                throw new InvalidOperationException("Ranked-grading requires a minimum of 5 students with grades in oredr to rpoperly calculate A student's overall grade.");
+                throw new InvalidOperationException("Ranked-grading requires a minimum of 5 students with grades in oredr to properly calculate A student's overall grade.");
             }
             base.CalculateStatistics();
         }
@@ -63,9 +75,9 @@ namespace GradeBook.GradeBooks
         {
             if (this.Students.Count < 5)
             {
-                throw new InvalidOperationException("Ranked-grading requires a minimum of 5 students with grades in oredr to rpoperly calculate A student's overall grade.");
+                throw new InvalidOperationException("Ranked-grading requires a minimum of 5 students with grades in oredr to properly calculate A student's overall grade.");
             }
-            base.CalculateStudentStatistics(name);
+            base.CalculateStatistics();
         }
     }
 }

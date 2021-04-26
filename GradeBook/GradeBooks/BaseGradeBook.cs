@@ -107,7 +107,7 @@ namespace GradeBook.GradeBooks
             }
         }
 
-        public virtual double GetGPA(char letterGrade, StudentType studentType)
+        public virtual double GetGPA(char letterGrade)
         {
             switch (letterGrade)
             {
@@ -139,7 +139,17 @@ namespace GradeBook.GradeBooks
             foreach (var student in Students)
             {
                 student.LetterGrade = GetLetterGrade(student.AverageGrade);
-                student.GPA = GetGPA(student.LetterGrade, student.Type);
+                // student.GPA = GetGPA(student.LetterGrade, student.Type);
+
+                if (IsWeighted == true)
+                {
+                    student.GPA = GetGPA(student.LetterGrade) + 1;
+                }
+                else
+                {
+                    student.GPA = GetGPA(student.LetterGrade);
+                }
+
 
                 Console.WriteLine("{0} ({1}:{2}) GPA: {3}.", student.Name, student.LetterGrade, student.AverageGrade, student.GPA);
                 allStudentsPoints += student.AverageGrade;
@@ -195,8 +205,22 @@ namespace GradeBook.GradeBooks
         public virtual void CalculateStudentStatistics(string name)
         {
             var student = Students.FirstOrDefault(e => e.Name == name);
+            if (student == null)
+            {
+                Console.WriteLine($"{name} is not founde in {Name} gradebook.");
+            }
+
             student.LetterGrade = GetLetterGrade(student.AverageGrade);
-            student.GPA = GetGPA(student.LetterGrade, student.Type);
+            if (IsWeighted == true)
+            {
+                student.GPA = GetGPA(student.LetterGrade) + 1;
+            }
+            else
+            {
+                student.GPA = GetGPA(student.LetterGrade);
+            }
+
+            //student.GPA = GetGPA(student.LetterGrade, student.Type);
 
             Console.WriteLine("{0} ({1}:{2}) GPA: {3}.", student.Name, student.LetterGrade, student.AverageGrade, student.GPA);
             Console.WriteLine();
